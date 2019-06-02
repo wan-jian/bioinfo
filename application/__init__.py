@@ -21,7 +21,7 @@ class Application:
                 sys.exit(0)
 
         if len(args) == 0:
-            print("Warning: Not refer project file, use 'default.json' in working directory instead")
+            print("Warning: Not refer to a project file, use 'default.json' in working directory instead")
             self.proj['file_name'] = 'default.json'
         elif len(args) > 1:
             sys.stderr.printf(self.usage)

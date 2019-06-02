@@ -42,3 +42,4 @@ def process1_1():
     workbook.append_sheet(sheet2)
 
     workbook.write_xls(app.proj['output_file'])
+    print("Successfully write the result file: '{}'".format(app.proj['output_file']))
