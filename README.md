@@ -1,5 +1,6 @@
 # bioinfo
 临床数据分析
+
 ## 使用说明
 命令的使用如下：
 ```
@@ -31,3 +32,7 @@ $ python3 bi.py [-h|--help] [项目文件]
 * data_dir：数据文件的存放目录
 * source_file：待处理的文件名
 * output_file：处理分析后的结果的文件名
+
+## 软件安装说明
+1. 安装python3
+2. 使用"pip3 install"命令安装以下库文件：xlrd、xlwt、pandas
