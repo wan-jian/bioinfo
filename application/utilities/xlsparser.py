@@ -11,7 +11,7 @@ class Workbook:
     def read_xls(self, file_name):
         self.file_name = file_name
         wb = xlrd.open_workbook(file_name)
-        for s in wb.sheets() :
+        for s in wb.sheets():
             sheet = Sheet()
             sheet.name = s.name
             sheet.header = s.row_values(0)

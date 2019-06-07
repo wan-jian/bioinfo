@@ -1,12 +1,13 @@
 # coding=utf-8
 
+from application import app
 from application.bioinfo.process1 import process1_1
 import sys
 
 
 def main():
     try:
-        process1_1()
+        app.do_processes()
     except Exception as e:
         sys.stderr.write(str(e) + '\n')
         sys.exit(11)

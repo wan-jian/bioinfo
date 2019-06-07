@@ -1,12 +1,13 @@
 # coding=utf-8
 
 from application.utilities.xlsparser import Workbook, Sheet
-from application import app
+import os
+import pandas as pd
 
-
-def process1_1():
+def process1_1(process):
     workbook = Workbook()
-    workbook.read_xls(file_name=app.proj['source_file'])
+    file_path = os.path.join(process['data_dir'], process['source_file'])
+    workbook.read_xls(file_name=file_path)
     sheet = workbook.get_sheet_by_index(0)
 
     sheet1 = Sheet()
@@ -41,5 +42,51 @@ def process1_1():
     workbook.append_sheet(sheet1)
     workbook.append_sheet(sheet2)
 
-    workbook.write_xls(app.proj['output_file'])
-    print("Successfully write the result file: '{}'".format(app.proj['output_file']))
+    file_path = os.path.join(process['data_dir'], process['output_file'])
+    workbook.write_xls(file_path)
+    print("Successfully write the result file: '{}'".format(process['output_file']))
+
+
+def process1_2(process):
+    file_path = os.path.join(process['data_dir'], process['source_file'][0])
+    df1_1 = pd.read_excel(file_path, sheet_name='Metastasis group')
+    df1_2 = pd.read_excel(file_path, sheet_name='Non-metastasis group')
+
+    file_path = os.path.join(process['data_dir'], process['source_file'][1])
+    df2 = pd.read_csv(file_path, sep='\t')
+
+    df_result1 = rna_filter(df1_1, df2)
+    df_result2 = rna_filter(df1_2, df2)
+
+    file_path = os.path.join(process['data_dir'], process['output_file'][0])
+    df_result1.to_csv(file_path, index=False, sep='\t')
+    print("Successfully write the result file: '{}'".format(process['output_file'][0]))
+    file_path = os.path.join(process['data_dir'], process['output_file'][1])
+    df_result2.to_csv(file_path, index=False, sep='\t')
+    print("Successfully write the result file: '{}'".format(process['output_file'][1]))
+
+    file_path = os.path.join(process['data_dir'], process['source_file'][2])
+    df2 = pd.read_csv(file_path, sep='\t')
+
+    df_result1 = rna_filter(df1_1, df2)
+    df_result2 = rna_filter(df1_2, df2)
+
+    file_path = os.path.join(process['data_dir'], process['output_file'][2])
+    df_result1.to_csv(file_path, index=False, sep='\t')
+    print("Successfully write the result file: '{}'".format(process['output_file'][2]))
+    file_path = os.path.join(process['data_dir'], process['output_file'][3])
+    df_result2.to_csv(file_path, index=False, sep='\t')
+    print("Successfully write the result file: '{}'".format(process['output_file'][3]))
+
+
+def rna_filter(df1, df2):
+    sample_ids = df1['sampleID']
+
+    selected_columns = ['id']
+    for column in df2.columns:
+        for sampleID in sample_ids:
+            if column[:15] == sampleID:
+                selected_columns.append(column)
+
+    df_result = df2[selected_columns]
+    return df_result
