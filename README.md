@@ -35,4 +35,4 @@ $ python3 bi.py [-h|--help] [项目文件]
 
 ## 软件安装说明
 1. 安装python3
-2. 使用"pip3 install"命令安装以下库文件：xlrd、xlwt、pandas
+2. 使用"pip3 install"命令安装以下库文件：xlrd、xlwt、pandas 
