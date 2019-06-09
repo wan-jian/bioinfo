@@ -1,49 +1,35 @@
 # coding=utf-8
 
-from application.utilities.xlsparser import Workbook, Sheet
 import os
 import pandas as pd
 
+
 def process1_1(process):
-    workbook = Workbook()
     file_path = os.path.join(process['data_dir'], process['source_file'])
-    workbook.read_xls(file_name=file_path)
-    sheet = workbook.get_sheet_by_index(0)
+    df = pd.read_excel(file_path, dtype={'age_at_initial_pathologic_diagnosis': str,
+                                         'days_to_birth': str,
+                                         'days_to_last_followup': str,
+                                         'days_to_death': str})
 
-    sheet1 = Sheet()
-    sheet2 = Sheet()
-    sheet1.set_name('Metastasis group')
-    sheet2.set_name('Non-metastasis group')
-    header = ['sampleID', 'age_at_initial_pathologic_diagnosis', 'days_to_birth', 'gender', 'pathologic_T',
-              'pathologic_M', 'pathologic_N', 'pathologic_stage','days_to_last_followup', 'days_to_death']
-    sheet1.set_header(header)
-    sheet2.set_header(header)
+    columns = ['sampleID', 'age_at_initial_pathologic_diagnosis', 'days_to_birth', 'gender', 'pathologic_T',
+               'pathologic_M', 'pathologic_N', 'pathologic_stage', 'days_to_last_followup', 'days_to_death']
 
-    for r in range(len(sheet.rows)):
-        row = []
-        for col_name in header:
-            item = sheet.get_item_by_name(r, col_name)
-            row.append(item)
+    df_output1 = df[columns][(df['sampleID'].str[-2:].astype('int') < 11) &
+                             (df['new_neoplasm_event_type'].isnull()) &
+                             (df['pathologic_M'] == 'M0') &
+                             (df['pathologic_N'] == 'N0')]
 
-        v = row[sheet1.get_header_index('sampleID')]
-        if int(v[-2:]) >= 11:
-            continue
-
-        v = sheet.get_item_by_name(r, 'new_neoplasm_event_type')
-        v1 = row[sheet1.get_header_index('pathologic_M')]
-        v2 = row[sheet1.get_header_index('pathologic_N')]
-        if v1 == 'M0' and v2 == 'N0' and v == '':
-            sheet1.append_row(row)
-
-        if v1 == 'M1' or v2 == 'N1'or v2 == 'N1b' or v == 'Distant Metastasis':
-            sheet2.append_row(row)
-
-    workbook = Workbook()
-    workbook.append_sheet(sheet1)
-    workbook.append_sheet(sheet2)
+    df_output2 = df[columns][(df['sampleID'].str[-2:].astype('int') < 11) &
+                             ((df['new_neoplasm_event_type'] == 'Distant Metastasis') |
+                              (df['pathologic_M'] == 'M1') |
+                              (df['pathologic_N'] == 'N1') |
+                              (df['pathologic_N'] == 'N1b'))]
 
     file_path = os.path.join(process['data_dir'], process['output_file'])
-    workbook.write_xls(file_path)
+    writer = pd.ExcelWriter(file_path, engine='xlsxwriter', options={'strings_to_numbers': True})
+    df_output1.to_excel(writer, sheet_name='Metastasis group', index=False)
+    df_output2.to_excel(writer, sheet_name='Non-metastasis group', index=False)
+    writer.save()
     print("Successfully write the result file: '{}'".format(process['output_file']))
 
 

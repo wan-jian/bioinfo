@@ -4,7 +4,7 @@
     "comment" : "Divide clinical information into metastasis group and non-metastasis group",
     "data_dir" : "/Users/wj/data",
     "source_file" : "临床信息.xlsx",
-    "output_file" : "sample_groups.xls"
+    "output_file" : "sample_groups.xlsx"
   },
   {
     "process_name" : "process1_2",
