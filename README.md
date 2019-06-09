@@ -5,7 +5,7 @@
 
 * **2019/06/09** 用pandas库重写process1_1，使用xlsxwriter库生成xlsx格式的结果文件。使用时注意以下几点：
     1. 安装xlsxwriter包；
-    2. 项目文件中“process_1”部分中“output_file”指定的文件扩展名必须为“.xlsx”。
+    2. 项目文件中“process1_1”部分中“output_file”指定的文件扩展名必须为“.xlsx”。
 
 ## 使用说明
 命令的使用如下：
