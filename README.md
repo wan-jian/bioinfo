@@ -27,7 +27,7 @@ $ python3 bi.py [-h|--help] [项目文件]
     "process_name" : "process1_2",
     "comment" : "Generate mRNA and miRNA files for metastasis group and non-metastasis group",
     "data_dir" : "/Users/wj/data",
-    "source_file" : ["sample_groups.xls", "mRNA表达值.txt", "miRNA表达值.txt"],
+    "source_file" : ["sample_groups.xlsx", "mRNA表达值.txt", "miRNA表达值.txt"],
     "output_file" : ["m_mRNA.txt", "n_mRNA.txt", "m_miRNA.txt", "n_miRNA.txt"]
   }
 ]
