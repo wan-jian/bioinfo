@@ -3,7 +3,7 @@
 
 ## 更改历史
 
-* **2019/06/09** 用pandas库重写process_1，使用xlsxwriter库生成xlsx格式的结果文件。使用时注意以下几点：
+* **2019/06/09** 用pandas库重写process1_1，使用xlsxwriter库生成xlsx格式的结果文件。使用时注意以下几点：
     1. 安装xlsxwriter包；
     2. 项目文件中“process_1”部分中“output_file”指定的文件扩展名必须为“.xlsx”。
 
@@ -14,7 +14,7 @@ $ python3 bi.py [-h|--help] [项目文件]
 ```
 其中“项目文件”可以省略，如省略，则使用当前工作目录下的“default.json”文件。
 项目文件定义一个数据处理过程，项目文件采用JSON格式，示例如下：
-```
+```json
 [
   {
     "process_name" : "process1_1",
